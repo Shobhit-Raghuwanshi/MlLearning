@@ -28,8 +28,13 @@ def gradient_descent(x, y, w, b, alpha, iterations):
     # 2. Update w and b
     # 3. Optionally track the cost
 
-    # Return learned w and b
-    pass
+    for i in range(0 , iterations):
+        dj_dw , dj_db = compute_gradient(x, y , w, b)
+        w = w - alpha*dj_dw
+        b = b - alpha*dj_db
+        
+    
+    return w , b
 
 
 
@@ -56,3 +61,8 @@ w = 3
 b = 10
 
 print(compute_gradient(x, y, w,b))
+
+print("_____")
+
+
+print(gradient_descent(x, y, w, b, 0.0001, 100))
