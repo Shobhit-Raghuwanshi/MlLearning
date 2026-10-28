@@ -65,4 +65,4 @@ print(compute_gradient(x, y, w,b))
 print("_____")
 
 
-print(gradient_descent(x, y, w, b, 0.0001, 100))
+print(gradient_descent(x, y, w, b, 0.0001, 1000000))
