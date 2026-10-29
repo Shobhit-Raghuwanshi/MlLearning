@@ -42,3 +42,39 @@ def transform_features(X, mean, std):
 X_train_mean , X_train_std = fit_scaler(X_train= X_train)
 X_train_scaled = transform_features(X_train , X_train_mean , X_train_std)
 X_test_scaled = transform_features(X_test, X_train_mean , X_train_std)
+
+
+
+def predict(X , w , b):
+    return np.dot(X, w) + b
+
+def gradient(X , y , w, b):
+    dj_dw = (X.T @ (predict(X, w, b) - y))/np.shape(X)[0]
+    dj_db = np.sum(predict(X, w, b)- y)/np.shape(X)[0]
+
+    return dj_dw, dj_db
+
+
+def gradient_decend(X, y , w, b, alpha, iterations):
+    for _ in range(iterations):
+        dj_dw , dj_db = gradient(X ,y ,w, b)
+        w = w - alpha*dj_dw
+        b = b - alpha*dj_db
+
+    return w, b
+
+def calculate_cost(X, y , w, b):
+    return (np.dot(X, w) + b - y)*(np.dot(X, w) + b - y)/(2*np.shape(X)[0])
+
+w = np.zeros(X_train_scaled.shape[1])
+b = 0.0
+
+alpha = 0.01
+iterations = 5000
+
+print("COST BEFORE --> " ,calculate_cost(X_train_scaled, y_train , w, b))
+
+w, b = gradient_decend(X_train_scaled, y_train , w, b, alpha, iterations)
+print("NEW W, b" , w , " ||| " , b)
+
+print("COST AFTER --> " ,calculate_cost(X_train_scaled, y_train , w, b))
