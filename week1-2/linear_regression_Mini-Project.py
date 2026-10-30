@@ -2,6 +2,7 @@
 import numpy as np
 
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 X = np.array([
     [10, 5],
@@ -64,7 +65,13 @@ def gradient_decend(X, y , w, b, alpha, iterations):
     return w, b
 
 def calculate_cost(X, y , w, b):
-    return (np.dot(X, w) + b - y)*(np.dot(X, w) + b - y)/(2*np.shape(X)[0])
+    return np.sum((np.dot(X, w) + b - y)*(np.dot(X, w) + b - y))/(2*np.shape(X)[0])
+
+def calculate_mae(y_actual, y_pred):
+    return np.mean(np.abs(y_pred - y_actual))
+
+def calculate_mse(y_actual, y_pred):
+    return np.sum((y_pred - y_actual)**2)/np.shape(y_actual)[0]
 
 w = np.zeros(X_train_scaled.shape[1])
 b = 0.0
@@ -78,3 +85,18 @@ w, b = gradient_decend(X_train_scaled, y_train , w, b, alpha, iterations)
 print("NEW W, b" , w , " ||| " , b)
 
 print("COST AFTER --> " ,calculate_cost(X_train_scaled, y_train , w, b))
+
+
+
+print(predict(X_test_scaled , w , b), " |||||| ", y_test )
+
+
+print("+++++++++++ SKKKLEARRNNN +++++++++++++++++")
+
+ 
+regr =  LinearRegression()
+
+regr.fit(X_train_scaled , y_train)
+
+print("SKK_learn_prediction" , regr.predict(X_test_scaled))
+print(regr.coef_, regr.intercept_)
